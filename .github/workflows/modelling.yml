@@ -48,7 +48,7 @@ jobs:
           python modelling.py --data_path ../data/processed/fraud_detection_processed.csv --tuning
 
       - name: Get Latest MLflow run_id
-        working-directory: MLProject/models_tuned/
+        working-directory: training/models_tuned/
         run: |
           RUN_ID=$(cat best_tuned_model_run_id.txt)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fraud-detection-model-${{ env.RUN_ID }}
-          path: MLProject/models_tuned/
+          path: training/models_tuned/
           retention-days: 90
 
       - name: Build Docker Model
