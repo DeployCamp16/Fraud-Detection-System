@@ -21,8 +21,6 @@ import xgboost as xgb
 from dotenv import load_dotenv
 load_dotenv()
 
-import dagshub
-dagshub.init(repo_owner='DeployCamp16', repo_name='Fraud-Detection-System', mlflow=True)
 mlflow_tracking_uri = os.getenv('MLFLOW_TRACKING_URL')
 
 logging.basicConfig(
