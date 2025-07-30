@@ -51,7 +51,7 @@ def mlflow_setup():
         mlflow.set_experiment('Fraud Pred Tuned CI')
         logger.info('MLflow setup locally completed.')
 
-def load_data(data_path = "fraud_detection_processed.csv"):
+def load_data(data_path = "../data/processed/fraud_detection_processed.csv"):
     logger.info(f'Loading data from: {data_path}')
     df = pd.read_csv(data_path)
     
