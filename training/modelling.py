@@ -47,9 +47,6 @@ def mlflow_setup():
         
     except Exception as e:
         logger.exception(f'MLflow setup for DagsHub failed: {e}.')
-        mlflow.set_tracking_uri('http://127.0.0.1:5000')
-        mlflow.set_experiment('Fraud Detection CI')
-        logger.info('MLflow setup locally completed.')
 
 def load_data(data_path):
     logger.info(f'Loading data from: {data_path}')
@@ -248,7 +245,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train and log a fraud prediction model using MLflow.')
 
     parser.add_argument(
-        '-d', '--data_path', type=str, default='fraud_detection_processed.csv',
+        '-d', '--data_path', type=str, default='data/processed/fraud_detection_processed.csv',
         help='Path to the processed data file.')
     
     group = parser.add_mutually_exclusive_group(required=True)

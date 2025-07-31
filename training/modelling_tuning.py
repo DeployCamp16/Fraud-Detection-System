@@ -47,11 +47,11 @@ def mlflow_setup():
         
     except Exception as e:
         logger.exception(f'MLflow setup for Dagrid_searchHub failed: {e}.')
-        mlflow.set_tracking_uri('http://127.0.0.1:5000')
-        mlflow.set_experiment('Fraud Pred Tuned CI')
-        logger.info('MLflow setup locally completed.')
+        # mlflow.set_tracking_uri('http://127.0.0.1:5000')
+        # mlflow.set_experiment('Fraud Pred Tuned CI')
+        # logger.info('MLflow setup locally completed.')
 
-def load_data(data_path = "../data/processed/fraud_detection_processed.csv"):
+def load_data(data_path = "./data/processed/fraud_detection_processed.csv"):
     logger.info(f'Loading data from: {data_path}')
     df = pd.read_csv(data_path)
     
