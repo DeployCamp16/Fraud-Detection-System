@@ -1,0 +1,12 @@
+scikit-learn
+pandas
+numpy
+joblib
+dagshub
+imbalanced-learn
+matplotlib
+mlflow==2.19.0
+python-dotenv
+seaborn
+xgboost
+virtualenv
