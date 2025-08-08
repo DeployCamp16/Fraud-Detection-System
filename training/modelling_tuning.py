@@ -49,7 +49,6 @@ def mlflow_setup():
         logger.exception(f'MLflow setup for DagsHub failed: {e}. Starting MLFLOW locally')
 
 def load_data(data_path = "../data/processed/fraud_detection_processed.csv"):
-def load_data(data_path = "../data/processed/fraud_detection_processed.csv"):
     logger.info(f'Loading data from: {data_path}')
     df = pd.read_csv(data_path)
     
