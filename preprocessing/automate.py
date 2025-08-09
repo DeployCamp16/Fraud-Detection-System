@@ -12,7 +12,7 @@ from sklearn.compose import ColumnTransformer
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.pipeline import make_pipeline as make_imb_pipeline
 
-def preprocess_data(save_path, file_path, pipeline_preprocessing_path):
+def preprocess_data(save_path, file_path, pipeline_preprocessing_path, column_file_path):
     data = pd.read_csv(file_path)
     target_column = "label"
 
@@ -76,23 +76,20 @@ def preprocess_data(save_path, file_path, pipeline_preprocessing_path):
     preproc_data = pd.DataFrame(X_train, columns=numeric_features + cat_features)
     preproc_data['label'] = y_train.reset_index(drop=True)
     preproc_data.to_csv(save_path, index=False)
-    
+
+    # save preprocessed column names
+    df_header = pd.DataFrame(columns=numeric_features + cat_features)
+    df_header.to_csv(column_file_path, index=False)
+
+    print(f"Column names successfully saved to : {column_file_path}")
     print(f'Pre-processed data successfully saved to: {save_path}\n')
 
     return X_train, X_test, y_train, y_test
-
-def inference(new_data, load_path):
-    # Memuat pipeline preprocessing
-    preprocessor = load(load_path)
-    print(f"Pipeline preprocessing dimuat dari: {load_path}")
- 
-    # Transformasi data baru
-    transformed_data = preprocessor.transform(new_data)
-    return transformed_data
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = preprocess_data(
         file_path='../data/raw/fraud_detection.csv',
         save_path='../data/processed/fraud_detection_processed.csv',
-        pipeline_preprocessing_path = '../models/preprocessing/preprocessor.joblib'
+        pipeline_preprocessing_path = '../models/preprocessing/preprocessor.joblib',
+        column_file_path = '../data/processed/column_list_processed.csv'
     )
