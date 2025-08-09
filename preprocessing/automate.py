@@ -12,7 +12,7 @@ from sklearn.compose import ColumnTransformer
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.pipeline import make_pipeline as make_imb_pipeline
 
-def preprocess_data(save_path, file_path):
+def preprocess_data(save_path, file_path, pipeline_preprocessing_path):
     data = pd.read_csv(file_path)
     target_column = "label"
 
@@ -69,7 +69,8 @@ def preprocess_data(save_path, file_path):
         cats = cat_encoder.categories_[i]
         cat_features.extend([f"{col}_{cat}" for cat in cats])
 
-    dump(pipeline.named_steps['columntransformer'], save_path)
+    dump(pipeline.named_steps['columntransformer'], pipeline_preprocessing_path)
+    print(f'preprocessor pipeline successfully saved to: {pipeline_preprocessing_path}\n')
 
     # Save the cleaned data to a csv file
     preproc_data = pd.DataFrame(X_train, columns=numeric_features + cat_features)
@@ -91,6 +92,7 @@ def inference(new_data, load_path):
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = preprocess_data(
-        file_path='./data/raw/fraud_detection.csv',
-        save_path='./data/processed/fraud_detection_processed.csv'
+        file_path='../data/raw/fraud_detection.csv',
+        save_path='../data/processed/fraud_detection_processed.csv',
+        pipeline_preprocessing_path = '../models/preprocessing/preprocessor.joblib'
     )
