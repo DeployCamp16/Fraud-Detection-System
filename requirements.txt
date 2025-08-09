@@ -10,3 +10,5 @@ python-dotenv
 seaborn
 xgboost
 virtualenv
+prometheus_client
+psutil
