@@ -29,15 +29,21 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run preprocessing script
+      working-directory: preprocessing
       run: |
-        python preprocessing/automate.py
+        python automate.py
 
     - name: Commit and push processed data
-      uses: EndBug/add-and-commit@v9
+      if: success()
+      uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        add: 'data/processed/fraud_detection_processed.csv'
-        author_name: 'github-actions[bot]'
-        author_email: 'github-actions[bot]@users.noreply.github.com'
-        message: 'Update pre-processed data'
+        commit_message: 'Update pre-processed data'
+        file_pattern: |
+          data/processed/fraud_detection_processed.csv
+          data/processed/column_list_processed.csv
+          models/preprocessing/preprocessor.csv
+        commit_user_name: 'github-actions[bot]'
+        commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
       env:
-        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
