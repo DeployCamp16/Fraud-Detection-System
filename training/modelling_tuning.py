@@ -86,6 +86,9 @@ def model_evaluate(model, X_test, y_test):
 
 def mlflow_tracking(best_params, metrics, cm, model_name, X_train, best_model):
     with mlflow.start_run(run_name=f'{model_name}_tuned_run_ci') as run:
+
+        mlflow.log_artifact("../models/preprocessing/preprocessor.joblib", "preprocessing")
+
         for param, value in best_params.items():
             mlflow.log_param(param, value)
         logger.info('Param logged to MLflow.')
