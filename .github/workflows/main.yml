@@ -90,12 +90,26 @@ jobs:
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
+      - name: Install Python Dependencies
+        run: |
+          pip install docker
+
+      - name: Upload to GitHub Artifacts
+        if: env.RUN_ID != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.DOCKER_IMAGE }}-${{ env.RUN_ID }}
+          path: training/models_tuned/
+          retention-days: 90
+
       - name: Build Docker Model
         if: env.RUN_ID != ''
         env:
           DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+          MLFLOW_TRACKING_URI: ${{ env.MLFLOW_TRACKING_URL }}
         run: |
+          echo "Using RUN_ID=${{ env.RUN_ID }}"
           mlflow models build-docker --model-uri "runs:/${{ env.RUN_ID }}/model" --name "${{ env.DOCKER_IMAGE }}"
 
       - name: Login to Docker Hub
